@@ -1,26 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookH</title>
-</head>
-<body>
-    <h2>Create new Listings</h2>
-    <form method= "POST" action="/listings">
-        <input name="listing[title]" placeholder="Enter title" type="text">
-        <br>    
-        <textarea name="listing[description]" placeholder="enter about" ></textarea>
-        <br>
-        <input name="listing[image]" placeholder="Enter url" type="text">
-        <br>
-        <input name="listing[price]" placeholder="Enter price" type="nymber">
-        <br>
-        <input name="listing[country]" placeholder="Enter country" type="text">
-        <br>
-        <input name="listing[location]" placeholder="Enter location" type="text">
-        <br>
-    <button>Add Listings</button>
+<% layout('/layouts/boilerplate.ejs') -%>
+
+    <div class="row">
+    <div class="col-8 offset-2">
+
+    <br><br>
+    <h2 class="mb-3">Create New Listing</h2>
+    
+    <form method="POST" action="/listings">
+      
+      <!-- Title -->
+      <div>
+        <label for="title" class="form-label">Title</label>
+        <input 
+          name="listing[title]" 
+          placeholder="Enter title" 
+          type="text" 
+          class="form-control" 
+          required>
+      </div>
+
+      <!-- Description -->
+      <div >
+        <label for="description" class="form-label">Description</label>
+        <textarea 
+          id="description"     name="listing[description]" 
+          placeholder="Enter description" 
+          class="form-control" 
+          required></textarea>
+      </div>
+
+      <!-- Image -->
+      <div class=>
+        <label for="image" class="form-label">Image URL</label>
+        <input 
+          name="listing[image]" 
+          placeholder="Enter image URL" 
+          type="text" 
+          class="form-control"
+          required>
+      </div>
+
+      <div class="row">
+        <!-- Price -->
+      <div class="mb-3 col-md-4">
+        <label for="price" class="form-label">Price (₹)</label>
+        <input 
+         
+          name="listing[price]" 
+          placeholder="Enter price" 
+          type="number" 
+          class="form-control" 
+          required>
+      </div>
+
+      <!-- Country -->
+      <div class="mb-3 col-md-8" >
+        <label for="country" class="form-label">Country</label>
+        <input 
+
+          name="listing[country]" 
+          placeholder="Enter country" 
+          type="text" 
+          class="form-control" 
+          required>
+      </div>
+
+      </div>
+
+      
+
+      <!-- Location -->
+      <div class=>
+        <label for="location" class="form-label">Location</label>
+        <input 
+     
+          name="listing[location]" 
+          placeholder="Enter location" 
+          type="text" 
+          class="form-control" 
+          required>
+      </div>
+
+      <br>
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-dark">Add Listing</button>
+      <br><br><br>
     </form>
-</body>
-</html>
+  </div>
+  </div>
+  </div>
+
