@@ -24,12 +24,11 @@ async function main() {
 
 
 
-
-app.set("views engine", "ejs");
+app.engine("ejs", ejsmate);
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodoverride("_method"));
-app.engine("ejs", ejsmate);
 app.use(express.static(path.join(__dirname, "public")));
 
 
@@ -38,11 +37,10 @@ app.get("/", (req, res) => {
 });
 
 
-
-
 //Routers 
 app.use('/listings', listings);
 app.use('/listings/:id/reviews', reviews);
+
 
 
 // Error handling routes
