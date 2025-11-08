@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const { create } = require("./listing");
-const  schema = mongoose.Schema;
+const  Schema = mongoose.Schema;
 
-const reviewSchema = new schema({
+const reviewSchema = new Schema({
     comment: String,
     rating: {
         type: Number,
@@ -12,7 +12,11 @@ const reviewSchema = new schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 module.exports = mongoose.model("Review", reviewSchema);
