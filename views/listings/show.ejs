@@ -15,33 +15,39 @@
         <div class="listing-hero-image">
           <img src="<%= listing.image.url %>" alt="<%= listing.title %>" />
         </div>
-        <div class="card-body">
-          <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
-            <div>
-              <h2 class="listing-title mb-2"><%= listing.title %></h2>
-              <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-3">
+            <div class="flex-grow-1">
+              <h2 class="listing-title mb-3"><%= listing.title %></h2>
+              <div class="d-flex flex-wrap align-items-center gap-3 mb-3">
                 <span class="badge rounded-pill category-badge">
                   <i class="fa-solid <%= categoryIcon %> me-1"></i>
                   <%= fallbackCategory %>
                 </span>
-                <span class="listing-price fw-semibold">
-                  &#8377; <%= listing.price.toLocaleString("en-IN") %>
-                  <span class="text-muted">/ night</span>
-                </span>
+                <div class="listing-location text-muted">
+                  <i class="fa-solid fa-location-dot me-2"></i>
+                  <%= listing.location %>, <%= listing.country %>
+                </div>
               </div>
-              <p class="text-muted mb-2">
-                <i class="fa-solid fa-location-dot me-2"></i>
-                <%= listing.location %>, <%= listing.country %>
-              </p>
             </div>
-            <div class="listing-owner text-end">
-              <span class="badge rounded-pill bg-light text-dark">
+            <div class="listing-owner-section text-end">
+              <div class="badge rounded-pill bg-light text-dark p-2">
                 <i class="fa-solid fa-user-tie me-2"></i>
                 Host: <%= listing.owner.username %>
-              </span>
+              </div>
+              <div class="listing-price-display mt-2">
+                <span class="fw-bold fs-4">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+                <span class="text-muted">/ night</span>
+              </div>
             </div>
           </div>
-          <p class="mb-0"><%= listing.description %></p>
+          
+          <div class="listing-description-section">
+            <h5 class="mb-3">
+              <i class="fa-solid fa-align-left me-2"></i>About this place
+            </h5>
+            <p class="text-muted lh-lg mb-0"><%= listing.description %></p>
+          </div>
         </div>
       </div>
 
@@ -59,61 +65,88 @@
       <% } %>
 
       <div class="card review-card mb-4">
-        <div class="card-body">
-          <h4 class="mb-3">Guest Reviews</h4>
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">
+              <i class="fa-solid fa-star me-2"></i>Guest Reviews
+            </h4>
+            <% if (listing.reviews.length > 0) { %>
+              <span class="badge rounded-pill bg-primary">
+                <%= listing.reviews.length %> review<%= listing.reviews.length === 1 ? '' : 's' %>
+              </span>
+            <% } %>
+          </div>
           <% if(currentUser) { %>
-            <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation mb-4">
-              <div class="mb-3">
-                <label for="rating" class="form-label">Rating</label>
-                <fieldset class="starability-slot">
-                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
-                  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-                  <label for="first-rate1" title="Terrible">1 star</label>
-                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-                  <label for="first-rate2" title="Not good">2 stars</label>
-                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-                  <label for="first-rate3" title="Average">3 stars</label>
-                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-                  <label for="first-rate4" title="Very good">4 stars</label>
-                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-                  <label for="first-rate5" title="Amazing">5 stars</label>
-                </fieldset>
-              </div>
-              <div class="mb-3">
-                <label for="comment" class="form-label">Comment</label>
-                <textarea id="comment" name="review[comment]" cols="30" rows="5" class="form-control" required></textarea>
-                <div class="invalid-feedback">Please submit a comment for review.</div>
-              </div>
-              <button type="submit" class="btn btn-dark">Submit Review</button>
-            </form>
+            <div class="review-form-section mb-4 p-3 bg-light rounded">
+              <h6 class="mb-3">
+                <i class="fa-solid fa-pen-to-square me-2"></i>Write a Review
+              </h6>
+              <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
+                <div class="mb-3">
+                  <label for="rating" class="form-label fw-semibold">Your Rating</label>
+                  <fieldset class="starability-slot">
+                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                  </fieldset>
+                </div>
+                <div class="mb-3">
+                  <label for="comment" class="form-label fw-semibold">Your Comment</label>
+                  <textarea id="comment" name="review[comment]" cols="30" rows="4" class="form-control" placeholder="Share your experience..." required></textarea>
+                  <div class="invalid-feedback">Please submit a comment for review.</div>
+                </div>
+                <button type="submit" class="btn btn-dark">
+                  <i class="fa-solid fa-paper-plane me-2"></i>Submit Review
+                </button>
+              </form>
+            </div>
           <% } else { %>
-            <div class="alert alert-light border mb-4">
-              <i class="fa-solid fa-message me-2"></i>
-              <a href="/login" class="fw-semibold text-decoration-none">Log in</a> to leave a review.
+            <div class="alert alert-light border mb-4 d-flex align-items-center">
+              <i class="fa-solid fa-circle-info me-3 fs-4"></i>
+              <div>
+                <a href="/login" class="fw-semibold text-decoration-none">Log in</a> to leave a review and share your experience.
+              </div>
             </div>
           <% } %>
 
           <% if (listing.reviews.length === 0) { %>
-            <p class="text-muted mb-0">No reviews yet. Be the first to share your experience!</p>
+            <div class="empty-reviews text-center py-5">
+              <i class="fa-solid fa-comment-dots empty-icon mb-3"></i>
+              <h6>No reviews yet</h6>
+              <p class="text-muted mb-0">Be the first to share your experience!</p>
+            </div>
           <% } else { %>
-            <div class="row g-3">
+            <div class="row g-4">
               <% listing.reviews.forEach((review) => { %>
                 <div class="col-md-6">
-                  <div class="card shadow-sm border-0 h-100">
+                  <div class="review-item card shadow-sm border-0 h-100">
                     <div class="card-body">
-                      <h6 class="card-title mb-2">@<%= review.author.username %></h6>
-                      <p class="starability-result mb-2" data-rating="<%= review.rating %>"></p>
-                      <p class="card-text mb-0"><%= review.comment %></p>
-                    </div>
-                    <% if(currentUser && review.author._id.equals(currentUser._id)) { %>
-                      <div class="card-footer bg-white border-0 pt-0">
-                        <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                          <button class="btn btn-link text-danger p-0">
-                            <i class="fa-solid fa-trash me-1"></i>Delete
-                          </button>
-                        </form>
+                      <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h6 class="card-title mb-0">
+                          <i class="fa-solid fa-user-circle me-2"></i>
+                          @<%= review.author.username %>
+                        </h6>
+                        <p class="starability-result mb-0" data-rating="<%= review.rating %>"></p>
                       </div>
-                    <% } %>
+                      <p class="card-text text-muted lh-lg mb-0"><%= review.comment %></p>
+                      <% if(currentUser && review.author._id.equals(currentUser._id)) { %>
+                        <div class="mt-3 pt-3 border-top">
+                          <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="m-0">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                              <i class="fa-solid fa-trash me-1"></i>Delete Review
+                            </button>
+                          </form>
+                        </div>
+                      <% } %>
+                    </div>
                   </div>
                 </div>
               <% }) %>
@@ -171,20 +204,26 @@
               </div>
             <% } %>
 
-            <form action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation" novalidate>
+            <form action="/listings/<%= listing._id %>/bookings" method="POST" class="needs-validation booking-form" novalidate>
               <div class="row g-3">
                 <div class="col-12">
-                  <label for="checkIn" class="form-label">Check-in</label>
-                  <input type="date" class="form-control" id="checkIn" name="booking[checkIn]" data-booking-checkin required>
+                  <label for="checkIn" class="form-label fw-semibold">
+                    <i class="fa-solid fa-calendar-days me-2"></i>Check-in
+                  </label>
+                  <input type="date" class="form-control booking-date" id="checkIn" name="booking[checkIn]" data-booking-checkin required>
                   <div class="invalid-feedback">Select your arrival date.</div>
                 </div>
                 <div class="col-12">
-                  <label for="checkOut" class="form-label">Check-out</label>
-                  <input type="date" class="form-control" id="checkOut" name="booking[checkOut]" data-booking-checkout required>
+                  <label for="checkOut" class="form-label fw-semibold">
+                    <i class="fa-solid fa-calendar-check me-2"></i>Check-out
+                  </label>
+                  <input type="date" class="form-control booking-date" id="checkOut" name="booking[checkOut]" data-booking-checkout required>
                   <div class="invalid-feedback">Select your departure date.</div>
                 </div>
                 <div class="col-12">
-                  <label for="guests" class="form-label">Guests</label>
+                  <label for="guests" class="form-label fw-semibold">
+                    <i class="fa-solid fa-users me-2"></i>Guests
+                  </label>
                   <select id="guests" name="booking[guests]" class="form-select" required>
                     <% for (let i = 1; i <= 10; i++) { %>
                       <option value="<%= i %>"><%= i %> guest<%= i === 1 ? '' : 's' %></option>
@@ -192,13 +231,36 @@
                   </select>
                 </div>
                 <div class="col-12">
-                  <label for="notes" class="form-label">Notes (optional)</label>
+                  <label for="notes" class="form-label fw-semibold">
+                    <i class="fa-solid fa-note-sticky me-2"></i>Notes (optional)
+                  </label>
                   <textarea id="notes" name="booking[notes]" class="form-control" rows="3" placeholder="Share arrival details or special requests"></textarea>
                 </div>
               </div>
-              <button type="submit" class="btn btn-dark w-100 mt-3">
-                <i class="fa-solid fa-calendar-check me-2"></i>Book now
+
+              <div class="booking-summary mt-4 p-3 rounded">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="text-muted">Price per night:</span>
+                  <span class="fw-semibold">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="text-muted">Nights:</span>
+                  <span class="fw-semibold" id="nights-display">-</span>
+                </div>
+                <hr class="my-2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="fw-bold">Total:</span>
+                  <span class="fw-bold fs-5 text-primary" id="total-price">&#8377; <%= listing.price.toLocaleString("en-IN") %></span>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 mt-3 booking-submit">
+                <i class="fa-solid fa-calendar-check me-2"></i>Reserve now
               </button>
+              <small class="text-muted d-block text-center mt-2">
+                <i class="fa-solid fa-shield-halved me-1"></i>
+                Free cancellation within 48 hours
+              </small>
             </form>
           <% } %>
         </div>
