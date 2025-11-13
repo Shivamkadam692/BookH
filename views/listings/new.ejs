@@ -32,9 +32,7 @@
       </div>
 
       <!-- Image -->
-  
-
-      <div class=>
+      <div class="mb-3">
         <label for="image" class="form-label">Upload Image</label>
         <input 
           name="listing[image]" 
@@ -43,8 +41,6 @@
           >
          
       </div>
-
-
       <div class="row">
         <!-- Price -->
       <div class="mb-3 col-md-4">
@@ -76,7 +72,7 @@
       
 
       <!-- Location -->
-      <div class=>
+      <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input 
      
@@ -86,6 +82,26 @@
           class="form-control" 
           required>
           <div class="invalid-feedback">Please Enter Location</div>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          id="category"
+          name="listing[category]"
+          class="form-select"
+          required
+        >
+          <option value="" disabled selected>Select a category</option>
+          <% if (categoryOptions) { %>
+            <% categoryOptions.forEach((option) => { %>
+              <option value="<%= option.value %>"><%= option.value %></option>
+            <% }) %>
+          <% } %>
+        </select>
+        <div class="form-text">Match your listing with the closest travel vibe.</div>
+        <div class="invalid-feedback">Please choose a category.</div>
       </div>
 
       <br>

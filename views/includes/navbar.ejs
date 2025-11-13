@@ -1,46 +1,64 @@
-<style>
-    .btn-search{
-        background-color:  #e00700;
-        color: aliceblue;
-    }
-     .btn-search:hover{
-        background-color:  #e00700;
-        color: aliceblue;
-    }
-</style>
+<nav class="navbar navbar-expand-lg nav-glass border-bottom sticky-top shadow-sm">
+    <div class="container-fluid nav-container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
+            <span class="brand-icon d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-hotel"></i>
+            </span>
+            <div class="brand-text">
+                <span class="d-block fw-semibold">BookH</span>
+                <small class="text-muted d-none d-md-block">Stay where memories start</small>
+            </div>
+        </a>
 
-
-
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-solid fa-hotel"></i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <button class="navbar-toggler nav-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-
-                <a class="nav-link" href="/listings">Explore</a>
-
+            <div class="navbar-nav primary-links me-auto">
+                <a class="nav-link" href="/listings"><i class="fa-solid fa-compass me-2"></i>Explore</a>
+                <a class="nav-link" href="/listings#category-filters"><i class="fa-solid fa-layer-group me-2"></i>Categories</a>
+                <a class="nav-link" href="/listings/new"><i class="fa-solid fa-house-medical me-2"></i>Host</a>
             </div>
-            <div  class="navbar-nav ms-auto">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+
+            <form class="nav-search d-none d-lg-flex" role="search" action="/listings" method="GET">
+                <div class="input-group input-group-sm nav-search-group">
+                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input class="form-control" type="search" placeholder="Find city, vibe, or stay" aria-label="Search" name="search" value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>" />
                     <button class="btn btn-search" type="submit">Search</button>
-                </form>
-            </div>
-            <div class="navbar-nav ms-auto">
+                </div>
+            </form>
 
+            <div class="navbar-nav nav-auth ms-lg-4">
                 <% if(!currentUser){ %>
-                    <a class="nav-link " href="/signup"><b>Signup</b></a>
-                    <a class="nav-link" href="/login"><b>LogIn</b></a>
-                    <% } %>
-                        <% if(currentUser){ %>
-                            <a class="nav-link" href="/listings/new">Add New Listings</a>
-
-                            <a class="nav-link" href="/logout"><b>Log Out</b></a>
-                            <% } %>
+                    <a class="btn btn-outline-dark nav-pill" href="/login">Log In</a>
+                    <a class="btn btn-dark nav-pill" href="/signup">Join BookH</a>
+                <% } %>
+                <% if(currentUser){ %>
+                    <a class="btn btn-dark nav-pill" href="/listings/new"><i class="fa-solid fa-circle-plus me-2"></i>Add Listing</a>
+                    <div class="dropdown ms-lg-3">
+                        <button class="btn nav-avatar dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="avatar-circle"><%= (currentUser.username || currentUser.email || 'BH').slice(0,2).toUpperCase() %></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                            <li class="dropdown-header text-muted small px-3">Signed in as</li>
+                            <li><span class="dropdown-item-text fw-semibold px-3"><%= currentUser.username %></span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dashboard"><i class="fa-solid fa-gauge me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/listings/new"><i class="fa-solid fa-upload me-2"></i>New listing</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log Out</a></li>
+                        </ul>
+                    </div>
+                <% } %>
             </div>
+            <form class="nav-search d-lg-none w-100 mt-3" role="search" action="/listings" method="GET">
+                <div class="input-group input-group-sm nav-search-group">
+                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input class="form-control" type="search" placeholder="Search stays" aria-label="Search" name="search" value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>" />
+                    <button class="btn btn-search" type="submit">Search</button>
+                </div>
+            </form>
         </div>
     </div>
 </nav>

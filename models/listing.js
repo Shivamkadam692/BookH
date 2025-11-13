@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const review = require('./review.js');
+const Booking = require('./booking.js');
+const CATEGORY_OPTIONS = require('../utils/categoryOptions.js');
 const Schema = mongoose.Schema;
+
+const CATEGORY_VALUES = CATEGORY_OPTIONS.map((option) => option.value);
 
 const listingSchema = new Schema({
   title: {
@@ -22,9 +26,19 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
+  category: {
+    type: String,
+    enum: CATEGORY_VALUES,
+    required: true,
+    default: CATEGORY_VALUES[0],
+  },
   reviews: [{
       type: Schema.Types.ObjectId,
       ref: 'Review',
+  },],
+  bookings: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Booking',
   },],
   owner: {
     type: Schema.Types.ObjectId,
@@ -39,6 +53,11 @@ listingSchema.post('findOneAndDelete', async (listing) => {
       _id: {
         $in: listing.reviews
       }
+    });
+    await Booking.deleteMany({
+      _id: {
+        $in: listing.bookings,
+      },
     });
   }
 });

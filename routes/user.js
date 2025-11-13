@@ -3,9 +3,10 @@ const router = express.Router();
 const user = require('../models/user.js');
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
-const { saveRedirectUrl } = require("../middleware.js");
+const { saveRedirectUrl, isLoggedIn } = require("../middleware.js");
 
 const userController = require("../controllers/users.js");
+const dashboardController = require("../controllers/dashboard.js");
 
 //Signup routes
 
@@ -25,5 +26,8 @@ router.post('/login',saveRedirectUrl, passport.authenticate("local", { failureRe
 //logout route
 
 router.get('/logout', userController.logout );
+
+// dashboard
+router.get('/dashboard', isLoggedIn, wrapAsync(dashboardController.overview));
 
 module.exports = router;

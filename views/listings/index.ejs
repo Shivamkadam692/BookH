@@ -1,86 +1,116 @@
 <% layout('/layouts/boilerplate.ejs') -%>
 
-    <style>
-        #filters {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .filters {
-            text-align: center;
-            margin-right: 2rem;
-            margin-top: 2rem;
-            opacity: 0.7;
-        }
-
-        .filters:hover {
-            opacity: 1;
-            cursor: pointer;
-
-    
-        }
-        .filters p {
-            font-size: 0.8rem;
-        }
-    </style>
-
-<div id="filters">
-<div class="filters">
-<div > <i class="fa-solid fa-fire"></i></div>
-<p>Trending</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-bed"></i></div>
-<p>Rooms</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-mountain-city"></i></div>
-<p>Iconic cities</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-fort-awesome"></i></div>
-<p>Castles</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-person-swimming"></i></div>
-<p>Amazing Pools</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-mountain"></i></div>
-<p>Mountains</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-campground"></i></div>
-<p>Camping</p>
-</div>
-<div class="filters">
-<div > <i class="fa-solid fa-cow"></i></div>
-<p>Fams</p>
-</div>
+<div class="filter-bar" id="category-filters">
+  <div class="filter-list" data-filter-list>
+    <a
+      class="filter-chip <%= activeCategory === 'All' ? 'active' : '' %>"
+      href="/listings"
+      data-filter-value="All"
+    >
+      <span class="filter-chip-icon">
+        <i class="fa-solid fa-globe"></i>
+      </span>
+      <span>All</span>
+    </a>
+    <% if (categoryOptions) { %>
+      <% categoryOptions.forEach((option) => { %>
+        <%
+          const isActive = activeCategory === option.value;
+          const filterHref = `/listings?category=${encodeURIComponent(option.value)}`;
+        %>
+        <a
+          class="filter-chip <%= isActive ? 'active' : '' %>"
+          href="<%= filterHref %>"
+          data-filter-value="<%= option.value %>"
+        >
+          <span class="filter-chip-icon">
+            <i class="fa-solid <%= option.icon %>"></i>
+          </span>
+          <span><%= option.value %></span>
+        </a>
+      <% }) %>
+    <% } %>
+  </div>
 </div>
 
-    <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-2">
-        <% for(let listing of allListings) { %>
-            <a href="/listings/<%=listing._id%>" class="listing-link">
-                <div class="card col listing-card" style="width: 20rem;">
-                    <img src="<%= listing.image.url%>" class="card-img-top" alt="listing_image" style="height: 20rem;">
-                    <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <b>
-                                <%= listing.title %>
-                            </b> <br>
-                            &#8377; <%= listing.price.toLocaleString( "en-IN" )%> /night
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3">
+  <div>
+    <h3 class="mb-0">Browse Stays</h3>
+    <small class="text-muted">
+      <%= resultCount %> stay<%= resultCount === 1 ? '' : 's' %>
+      <% if (searchTerm) { %>
+        matching "<span class="fw-semibold"><%= searchTerm %></span>"
+      <% } %>
+    </small>
+  </div>
+  <div>
+    <% if (searchTerm || activeCategory !== 'All') { %>
+      <a href="/listings" class="btn btn-outline-secondary btn-sm">
+        <i class="fa-solid fa-rotate-left me-2"></i>Reset filters
+      </a>
+    <% } %>
+  </div>
+</div>
 
-                        </p>
-                    </div>
-                </div>
+<div
+  class="filter-empty-state text-center py-5 <%= allListings.length === 0 ? '' : 'd-none' %>"
+  data-filter-empty
+>
+  <h5>No stays found.</h5>
+  <p class="text-muted mb-3">
+    <% if (searchTerm) { %>
+      We couldn't find results for "<%= searchTerm %>". Try adjusting your search or filters.
+    <% } else { %>
+      Try selecting a different tag to keep exploring.
+    <% } %>
+  </p>
+  <a class="btn btn-outline-dark" href="/listings">Clear filters</a>
+</div>
 
-            </a>
-
-            <%}%>
-
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 listing-grid">
+  <% for (let listing of allListings) { %>
+    <%
+      const fallbackCategory = listing.category || 'Trending';
+      const matchedCategory = (categoryOptions || []).find(
+        (option) => option.value === fallbackCategory
+      );
+      const categoryIcon = matchedCategory ? matchedCategory.icon : 'fa-tag';
+    %>
+    <div
+      class="col"
+      data-listing-card
+      data-category="<%= fallbackCategory %>"
+    >
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card listing-card h-100">
+          <div class="listing-image-wrap">
+            <img
+              src="<%= listing.image.url %>"
+              class="card-img-top"
+              alt="listing_image"
+            >
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <h5 class="listing-title mb-1"><%= listing.title %></h5>
+                <p class="listing-meta text-muted mb-0">
+                  <i class="fa-solid fa-location-dot me-1"></i>
+                  <%= listing.location %>, <%= listing.country %>
+                </p>
+              </div>
+              <span class="badge rounded-pill category-badge">
+                <i class="fa-solid <%= categoryIcon %> me-1"></i>
+                <%= fallbackCategory %>
+              </span>
+            </div>
+            <p class="listing-price mb-0">
+              &#8377; <%= listing.price.toLocaleString('en-IN') %>
+              <span class="text-muted">/ night</span>
+            </p>
+          </div>
+        </div>
+      </a>
     </div>
-
-
-    </body>
+  <% } %>
+</div>

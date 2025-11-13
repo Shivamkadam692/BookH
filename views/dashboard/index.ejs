@@ -1,0 +1,190 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+
+<div class="dashboard py-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <h2 class="fw-semibold mb-1">Your Hosting Hub</h2>
+      <p class="text-muted mb-0">Track listings, manage bookings, and monitor your travel plans</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="/listings/new" class="btn btn-dark">
+        <i class="fa-solid fa-circle-plus me-2"></i>
+        Add New Listing
+      </a>
+      <a href="/listings" class="btn btn-outline-dark">
+        <i class="fa-solid fa-compass me-2"></i>
+        Explore Stays
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-xl-7">
+      <div class="card dashboard-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="card-title mb-0">Your Listings</h5>
+              <small class="text-muted">You currently host <%= ownerListings.length %> stay<%= ownerListings.length === 1 ? '' : 's' %></small>
+            </div>
+            <a href="/listings/new" class="btn btn-sm btn-outline-dark">
+              <i class="fa-solid fa-plus me-2"></i>New Listing
+            </a>
+          </div>
+
+          <% if (ownerListings.length === 0) { %>
+            <div class="empty-state text-center py-5">
+              <i class="fa-solid fa-house-circle-exclamation empty-icon mb-3"></i>
+              <h6>You're not hosting yet</h6>
+              <p class="text-muted">Create your first listing to start welcoming guests.</p>
+              <a href="/listings/new" class="btn btn-dark btn-sm">Create Listing</a>
+            </div>
+          <% } else { %>
+            <div class="list-group dashboard-list">
+              <% ownerListings.forEach((listing) => { %>
+                <a href="/listings/<%= listing._id %>" class="list-group-item list-group-item-action py-3">
+                  <div class="d-flex gap-3 align-items-center">
+                    <div class="listing-thumb">
+                      <img src="<%= listing.image.url %>" alt="<%= listing.title %>" />
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                        <div>
+                          <h6 class="mb-1 d-flex align-items-center gap-2">
+                            <span><%= listing.title %></span>
+                            <span class="badge rounded-pill category-badge">
+                              <i class="fa-solid fa-tag me-1"></i><%= listing.category %>
+                            </span>
+                          </h6>
+                          <small class="text-muted">
+                            <i class="fa-solid fa-location-dot me-1"></i>
+                            <%= listing.location %>, <%= listing.country %>
+                          </small>
+                        </div>
+                        <div class="text-end">
+                          <div class="fw-semibold">&#8377; <%= listing.price.toLocaleString('en-IN') %> / night</div>
+                          <small class="text-muted">
+                            <i class="fa-solid fa-calendar-check me-1"></i>
+                            <%= listing.upcomingBookings.length %> upcoming booking<%= listing.upcomingBookings.length === 1 ? '' : 's' %>
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-5">
+      <div class="card dashboard-card mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="card-title mb-0">Upcoming Guest Bookings</h5>
+              <small class="text-muted">Next arrivals at your stays</small>
+            </div>
+          </div>
+
+          <% if (incomingBookings.length === 0) { %>
+            <div class="empty-state py-4 text-center">
+              <i class="fa-solid fa-calendar-days empty-icon mb-3"></i>
+              <h6>No bookings yet</h6>
+              <p class="text-muted">Promote your listings to attract guests.</p>
+            </div>
+          <% } else { %>
+            <div class="list-group dashboard-list">
+              <% incomingBookings.forEach((booking) => { %>
+                <div class="list-group-item py-3">
+                  <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                    <div>
+                      <div class="fw-semibold mb-1">
+                        <i class="fa-solid fa-user-group me-2"></i>
+                        <%= booking.guest?.username || 'Guest' %>
+                      </div>
+                      <small class="text-muted d-block mb-2">
+                        <i class="fa-solid fa-house me-2"></i>
+                        <%= booking.listing?.title %>
+                      </small>
+                      <span class="badge rounded-pill bg-light text-dark">
+                        <i class="fa-solid fa-users me-1"></i>
+                        <%= booking.guests %> guest<%= booking.guests === 1 ? '' : 's' %>
+                      </span>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-semibold">
+                        <i class="fa-solid fa-calendar-day me-2"></i>
+                        <%= booking.checkIn.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) %> -
+                        <%= booking.checkOut.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) %>
+                      </div>
+                      <small class="text-muted d-block">
+                        &#8377; <%= booking.totalPrice.toLocaleString('en-IN') %> total
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="card dashboard-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="card-title mb-0">Your Trips</h5>
+              <small class="text-muted">Bookings you've made as a guest</small>
+            </div>
+          </div>
+
+          <% if (myBookings.length === 0) { %>
+            <div class="empty-state py-4 text-center">
+              <i class="fa-solid fa-plane-departure empty-icon mb-3"></i>
+              <h6>No trips booked</h6>
+              <p class="text-muted">Discover stays and plan your next getaway.</p>
+              <a class="btn btn-sm btn-outline-dark" href="/listings">Browse Listings</a>
+            </div>
+          <% } else { %>
+            <div class="list-group dashboard-list">
+              <% myBookings.forEach((booking) => { %>
+                <a href="/listings/<%= booking.listing._id %>" class="list-group-item list-group-item-action py-3">
+                  <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                    <div>
+                      <div class="fw-semibold mb-1"><%= booking.listing.title %></div>
+                      <small class="text-muted">
+                        <i class="fa-solid fa-location-dot me-1"></i>
+                        <%= booking.listing.location %>, <%= booking.listing.country %>
+                      </small>
+                      <div class="mt-2">
+                        <span class="badge rounded-pill bg-light text-dark me-2">
+                          <i class="fa-solid fa-calendar-day me-1"></i>
+                          <%= booking.checkIn.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) %> -
+                          <%= booking.checkOut.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) %>
+                        </span>
+                        <span class="badge rounded-pill bg-light text-dark">
+                          <i class="fa-solid fa-users me-1"></i>
+                          <%= booking.guests %> guest<%= booking.guests === 1 ? '' : 's' %>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-semibold mb-1">&#8377; <%= booking.totalPrice.toLocaleString('en-IN') %></div>
+                      <small class="text-muted">
+                        Host: <%= booking.listing.owner?.username || 'Host' %>
+                      </small>
+                    </div>
+                  </div>
+                </a>
+              <% }) %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -39,7 +39,7 @@
       </div>
 
       <!-- Image -->
-          <div class=>
+      <div class="mb-3">
         <label for="image" class="form-label">Upload Image</label>
         <input 
           name="listing[image]" 
@@ -87,6 +87,29 @@
           type="text"
           class="form-control"
           required>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          id="category"
+          name="listing[category]"
+          class="form-select"
+          required
+        >
+          <% if (categoryOptions) { %>
+            <% categoryOptions.forEach((option) => { %>
+              <option
+                value="<%= option.value %>"
+                <%= listing.category === option.value ? "selected" : "" %>>
+                <%= option.value %>
+              </option>
+            <% }) %>
+          <% } %>
+        </select>
+        <div class="form-text">Update the vibe guests can expect.</div>
+        <div class="invalid-feedback">Please choose a category.</div>
       </div>
 
       <!-- Submit Button -->
