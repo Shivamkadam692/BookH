@@ -1,6 +1,6 @@
 # BookH 🏨
 
-**Stay where memories start** - A full-featured accommodation booking platform built with Node.js and Express.
+**Stay where memories start** - full-featured accommodation booking platform built with Node.js and Express.
 
 BookH is a modern, responsive web application that connects travelers with unique stays around the world. Hosts can list their properties, and guests can discover, book, and review accommodations seamlessly.
 
