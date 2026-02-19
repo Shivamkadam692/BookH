@@ -133,7 +133,7 @@ BookH/
 - User registration and login with password hashing
 - Session-based authentication
 - Protected routes for authenticated users only
-- Owner verification for listing management
+
 
 ### Booking System
 - Date-based availability checking
