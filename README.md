@@ -1,12 +1,12 @@
-# BookH 🏨
+# BookH 
 
 **Stay where memories start** - full-featured accommodation booking platform built with Node.js and Express.
 
 BookH is a modern, responsive web application that connects travelers with unique stays around the world. Hosts can list their properties, and guests can discover, book, and review accommodations seamlessly.
 
-## ✨ Features
+##  Features
 
-### 🏠 For Guests
+### For Guests
 - **Explore Stays** - Browse through categorized listings (Trending, Rooms, Iconic Cities, Castles, Pools, Mountains, Camping, Farms)
 - **Advanced Search** - Search by location, title, description, or category with real-time filtering
 - **Book Accommodations** - Easy booking system with date selection, guest count, and optional notes
@@ -14,14 +14,14 @@ BookH is a modern, responsive web application that connects travelers with uniqu
 - **Trip Management** - View and manage your bookings in the personalized dashboard
 - **Category Filtering** - Filter listings by travel categories with intuitive UI
 
-### 👨‍💼 For Hosts
+###  For Hosts
 - **Listing Management** - Create, edit, and delete your property listings
 - **Image Upload** - Cloudinary integration for seamless image hosting
 - **Booking Dashboard** - Monitor upcoming guest arrivals and manage reservations
 - **Revenue Tracking** - View booking statistics and earnings
 - **Owner Dashboard** - Comprehensive dashboard to manage all your listings and bookings
 
-### 🎨 User Experience
+### User Experience
 - **Responsive Design** - Beautiful, mobile-first interface that works on all devices
 - **Modern UI** - Clean, intuitive design with smooth animations and transitions
 - **Real-time Search** - Instant filtering and search results
