@@ -28,7 +28,7 @@ BookH is a modern, responsive web application that connects travelers with uniqu
 - **Flash Messages** - User-friendly notifications for all actions
 - **Protected Routes** - Secure authentication with Passport.js
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **Node.js** - Runtime environment
@@ -52,7 +52,7 @@ BookH is a modern, responsive web application that connects travelers with uniqu
 - **method-override** - RESTful routing support
 - **ejs-mate** - Layout support for EJS
 
-## 📦 Installation
+##  Installation
 
 1. **Clone the repository**
    ```bash
@@ -88,7 +88,7 @@ BookH is a modern, responsive web application that connects travelers with uniqu
    ```
    The application will run on `http://localhost:8080`
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 BookH/
@@ -127,7 +127,7 @@ BookH/
     └── index.js          # Init script
 ```
 
-## 🚀 Key Features Implementation
+##  Key Features Implementation
 
 ### Authentication System
 - User registration and login with password hashing
@@ -154,7 +154,7 @@ BookH/
 - Review management (view, create, delete)
 - Author verification
 
-## 📝 API Routes
+##  API Routes
 
 ### Listings
 - `GET /listings` - View all listings (supports search & category filters)
@@ -183,7 +183,7 @@ BookH/
 ### Dashboard
 - `GET /dashboard` - User dashboard (listings, bookings)
 
-## 🎯 Future Enhancements
+##  Future Enhancements
 
 - [ ] Payment gateway integration
 - [ ] Email notifications
@@ -196,7 +196,7 @@ BookH/
 - [ ] Advanced analytics dashboard
 - [ ] Mobile app version
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -206,16 +206,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the ISC License.
 
-## 👤 Author
+##  Author
 
 **Shivam Kadam**
 - GitHub: [@Shivamkadam692](https://github.com/Shivamkadam692)
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Bootstrap for the UI framework
 - Font Awesome for icons
